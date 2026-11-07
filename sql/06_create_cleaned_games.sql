@@ -1,0 +1,26 @@
+CREATE TABLE etl.cleaned_games AS
+SELECT
+    NULLIF(BTRIM(game_id), '') AS game_id,
+    NULLIF(BTRIM(game_datetime_est), '') AS game_datetime_est,
+    NULLIF(BTRIM(home_team_city), '') AS home_team_city,
+    NULLIF(BTRIM(home_team_name), '') AS home_team_name,
+    NULLIF(BTRIM(home_team_id), '') AS home_team_id,
+    NULLIF(BTRIM(away_team_city), '') AS away_team_city,
+    NULLIF(BTRIM(away_team_name), '') AS away_team_name,
+    NULLIF(BTRIM(away_team_id), '') AS away_team_id,
+    NULLIF(BTRIM(home_score), '') AS home_score,
+    NULLIF(BTRIM(away_score), '') AS away_score,
+    NULLIF(BTRIM(winner), '') AS winner,
+    NULLIF(BTRIM(game_type), '') AS game_type,
+    NULLIF(BTRIM(game_subtype), '') AS game_subtype,
+    NULLIF(BTRIM(game_label), '') AS game_label,
+    NULLIF(BTRIM(game_sub_label), '') AS game_sub_label,
+    NULLIF(BTRIM(series_game_number), '') AS series_game_number,
+    NULLIF(BTRIM(attendance), '') AS attendance,
+    NULLIF(BTRIM(arena_id), '') AS arena_id,
+    NULLIF(BTRIM(arena_name), '') AS arena_name,
+    NULLIF(BTRIM(arena_city), '') AS arena_city,
+    NULLIF(BTRIM(arena_state), '') AS arena_state,
+    NULLIF(BTRIM(officials), '') AS officials,
+    NULLIF(BTRIM(game_date), '') AS game_date
+FROM stg.raw_games;
