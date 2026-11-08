@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760">
+  <defs>
+    <style>
+      .title{font: bold 30px sans-serif;fill:#17365d}
+      .subtitle{font:16px sans-serif;fill:#52657a}
+      .head{font:bold 18px sans-serif;fill:white}
+      .field{font:15px monospace;fill:#243447}
+      .dim{fill:#eaf2f8;stroke:#3973a5;stroke-width:2}
+      .fact{fill:#fff2cc;stroke:#c58b18;stroke-width:3}
+      .line{stroke:#66839e;stroke-width:2.5;fill:none}
+    </style>
+  </defs>
+  <rect width="1100" height="760" fill="#f8fafc"/>
+  <text x="550" y="48" text-anchor="middle" class="title">NBA Data Warehouse — Star Schema</text>
+  <text x="550" y="76" text-anchor="middle" class="subtitle">Central fact table connected to four dimension tables</text>
+
+  <!-- Relationship lines -->
+  <path class="line" d="M550 285 L550 235"/>
+  <path class="line" d="M390 385 L290 385 L290 350"/>
+  <path class="line" d="M710 385 L810 385 L810 350"/>
+  <path class="line" d="M550 485 L550 535"/>
+
+  <!-- Date dimension -->
+  <rect class="dim" x="400" y="105" width="300" height="130" rx="10"/>
+  <rect x="400" y="105" width="300" height="38" rx="10" fill="#3973a5"/>
+  <text x="550" y="131" text-anchor="middle" class="head">dw.dim_date</text>
+  <text x="420" y="168" class="field">PK  date_key</text>
+  <text x="420" y="190" class="field">    full_date, year, quarter</text>
+  <text x="420" y="212" class="field">    month, day, is_weekend</text>
+
+  <!-- Team dimension -->
+  <rect class="dim" x="40" y="220" width="300" height="130" rx="10"/>
+  <rect x="40" y="220" width="300" height="38" rx="10" fill="#3973a5"/>
+  <text x="190" y="246" text-anchor="middle" class="head">dw.dim_team</text>
+  <text x="60" y="283" class="field">PK  team_key</text>
+  <text x="60" y="305" class="field">    team_id</text>
+  <text x="60" y="327" class="field">    team_city, team_name</text>
+
+  <!-- Arena dimension -->
+  <rect class="dim" x="760" y="220" width="300" height="130" rx="10"/>
+  <rect x="760" y="220" width="300" height="38" rx="10" fill="#3973a5"/>
+  <text x="910" y="246" text-anchor="middle" class="head">dw.dim_arena</text>
+  <text x="780" y="283" class="field">PK  arena_key</text>
+  <text x="780" y="305" class="field">    arena_name</text>
+  <text x="780" y="327" class="field">    arena_city, arena_state</text>
+
+  <!-- Fact table -->
+  <rect class="fact" x="350" y="285" width="400" height="200" rx="12"/>
+  <rect x="350" y="285" width="400" height="42" rx="10" fill="#bd8616"/>
+  <text x="550" y="313" text-anchor="middle" class="head">dw.fact_game</text>
+  <text x="375" y="355" class="field">PK  game_id</text>
+  <text x="375" y="378" class="field">FK  date_key</text>
+  <text x="375" y="401" class="field">FK  home_team_key, away_team_key</text>
+  <text x="375" y="424" class="field">FK  arena_key, game_type_key</text>
+  <text x="375" y="447" class="field">    home_score, away_score</text>
+  <text x="375" y="470" class="field">    winner_team_id, attendance</text>
+
+  <!-- Game type dimension -->
+  <rect class="dim" x="400" y="535" width="300" height="130" rx="10"/>
+  <rect x="400" y="535" width="300" height="38" rx="10" fill="#3973a5"/>
+  <text x="550" y="561" text-anchor="middle" class="head">dw.dim_game_type</text>
+  <text x="420" y="598" class="field">PK  game_type_key</text>
+  <text x="420" y="620" class="field">    game_type</text>
+  <text x="420" y="642" class="field">    game_type_description</text>
+
+  <text x="550" y="715" text-anchor="middle" class="subtitle">PK = Primary Key   |   FK = Foreign Key</text>
+</svg>

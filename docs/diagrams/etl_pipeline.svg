@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="430" viewBox="0 0 1100 430">
+  <defs>
+    <style>
+      .title{font:bold 30px sans-serif;fill:#17365d}
+      .sub{font:16px sans-serif;fill:#52657a}
+      .box{stroke:#3973a5;stroke-width:2;fill:#eaf2f8}
+      .final{stroke:#bd8616;stroke-width:2.5;fill:#fff2cc}
+      .label{font:bold 18px sans-serif;fill:#17365d}
+      .small{font:14px sans-serif;fill:#52657a}
+      .arrow{stroke:#66839e;stroke-width:3;fill:none}
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#66839e"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="430" fill="#f8fafc"/>
+  <text x="550" y="48" text-anchor="middle" class="title">NBA Data Warehouse — ETL Pipeline</text>
+  <text x="550" y="76" text-anchor="middle" class="sub">Extract, Transform, Load, and Validate</text>
+
+  <rect class="box" x="35" y="155" width="175" height="110" rx="12"/>
+  <text x="122" y="190" text-anchor="middle" class="label">Source Data</text>
+  <text x="122" y="218" text-anchor="middle" class="small">NBA Games CSV</text>
+  <text x="122" y="240" text-anchor="middle" class="small">Raw records</text>
+
+  <path class="arrow" d="M210 210 H245" marker-end="url(#arrowhead)"/>
+
+  <rect class="box" x="255" y="155" width="175" height="110" rx="12"/>
+  <text x="342" y="190" text-anchor="middle" class="label">Staging</text>
+  <text x="342" y="218" text-anchor="middle" class="small">stg.raw_games</text>
+  <text x="342" y="240" text-anchor="middle" class="small">Initial loading</text>
+
+  <path class="arrow" d="M430 210 H465" marker-end="url(#arrowhead)"/>
+
+  <rect class="box" x="475" y="155" width="175" height="110" rx="12"/>
+  <text x="562" y="190" text-anchor="middle" class="label">Transform</text>
+  <text x="562" y="218" text-anchor="middle" class="small">Clean and type</text>
+  <text x="562" y="240" text-anchor="middle" class="small">etl schema</text>
+
+  <path class="arrow" d="M650 210 H685" marker-end="url(#arrowhead)"/>
+
+  <rect class="box" x="695" y="155" width="175" height="110" rx="12"/>
+  <text x="782" y="190" text-anchor="middle" class="label">Load</text>
+  <text x="782" y="218" text-anchor="middle" class="small">Dimensions</text>
+  <text x="782" y="240" text-anchor="middle" class="small">Fact table</text>
+
+  <path class="arrow" d="M870 210 H905" marker-end="url(#arrowhead)"/>
+
+  <rect class="final" x="915" y="155" width="160" height="110" rx="12"/>
+  <text x="995" y="190" text-anchor="middle" class="label">Warehouse</text>
+  <text x="995" y="218" text-anchor="middle" class="small">dw schema</text>
+  <text x="995" y="240" text-anchor="middle" class="small">Analysis-ready</text>
+
+  <path class="arrow" d="M995 265 V315 H562 V280" marker-end="url(#arrowhead)"/>
+  <text x="780" y="342" text-anchor="middle" class="small">Data quality checks and validation</text>
+  <text x="550" y="390" text-anchor="middle" class="sub">PostgreSQL 16 • Docker Compose • SQL</text>
+</svg>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NBA Data Warehouse - Project Report</title>
+<style>
+@page {
+    size: A4;
+    margin: 18mm 16mm;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: #263445;
+    margin: 0;
+}
+header {
+    background: #17365d;
+    color: white;
+    padding: 28px;
+    margin-bottom: 25px;
+}
+header h1 {
+    font-size: 27pt;
+    margin: 0 0 8px;
+}
+header p {
+    margin: 3px 0;
+}
+h2 {
+    color: #17365d;
+    font-size: 16pt;
+    border-bottom: 2px solid #3973a5;
+    padding-bottom: 6px;
+    margin-top: 0;
+}
+h3 {
+    color: #28577f;
+    margin-bottom: 5px;
+}
+section {
+    margin-bottom: 26px;
+    page-break-inside: avoid;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    page-break-inside: avoid;
+}
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 9px 11px;
+    text-align: left;
+    vertical-align: top;
+}
+th {
+    background: #eaf2f8;
+    color: #17365d;
+    font-weight: bold;
+}
+.metric-table td {
+    width: 50%;
+}
+.metric-value {
+    font-size: 17pt;
+    font-weight: bold;
+    color: #17365d;
+}
+.diagram {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+}
+.note {
+    background: #f1f5f9;
+    border-left: 4px solid #3973a5;
+    padding: 10px 14px;
+    margin: 12px 0;
+}
+code {
+    font-family: monospace;
+    color: #17365d;
+}
+footer {
+    border-top: 1px solid #cbd5e1;
+    margin-top: 30px;
+    padding-top: 12px;
+    text-align: center;
+    color: #64748b;
+    font-size: 9pt;
+}
+a {
+    color: #245b91;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>NBA Data Warehouse</h1>
+<p><strong>Project Summary and Data Warehouse Documentation</strong></p>
+<p>PostgreSQL 16 | Docker Compose | SQL | Star Schema</p>
+</header>
+
+<section>
+<h2>1. Project Overview</h2>
+<p>
+The NBA Data Warehouse project organizes historical NBA game records
+into a structured PostgreSQL database. It uses an Extract, Transform,
+and Load (ETL) process to prepare source data for querying and analysis.
+</p>
+<p>
+The warehouse follows a Star Schema design, with a central game fact
+table connected to date, team, arena, and game type dimensions.
+</p>
+</section>
+
+<section>
+<h2>2. Dataset Summary</h2>
+<table class="metric-table">
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+<tr><td>Total games</td><td class="metric-value">73,470</td></tr>
+<tr><td>Teams</td><td class="metric-value">71</td></tr>
+<tr><td>Arenas</td><td class="metric-value">276</td></tr>
+<tr><td>Game types</td><td class="metric-value">8</td></tr>
+<tr><td>Date dimension rows</td><td class="metric-value">29,200</td></tr>
+</table>
+
+<table>
+<tr><th>Dataset Detail</th><th>Value</th></tr>
+<tr><td>First game date</td><td>November 26, 1946</td></tr>
+<tr><td>Last game date</td><td>November 5, 2026</td></tr>
+<tr><td>Average home score</td><td>106.06</td></tr>
+<tr><td>Average away score</td><td>102.52</td></tr>
+<tr><td>Average attendance (available values only)</td><td>17,851</td></tr>
+</table>
+</section>
+
+<section>
+<h2>3. Database Design</h2>
+<h3>Fact Table</h3>
+<p>
+<code>dw.fact_game</code> stores game-level records, including game ID,
+date and dimension keys, scores, winner, and attendance.
+</p>
+
+<h3>Dimension Tables</h3>
+<table>
+<tr><th>Dimension Table</th><th>Description</th></tr>
+<tr><td><code>dw.dim_date</code></td><td>Date attributes</td></tr>
+<tr><td><code>dw.dim_team</code></td><td>Team information</td></tr>
+<tr><td><code>dw.dim_arena</code></td><td>Arena information</td></tr>
+<tr><td><code>dw.dim_game_type</code></td><td>Game type information</td></tr>
+</table>
+
+<p>
+The staging schema (<code>stg</code>) holds source records, while the
+ETL schema (<code>etl</code>) holds cleaned and transformed data.
+</p>
+</section>
+
+<section>
+<h2>4. Star Schema Diagram</h2>
+<p>
+The fact table is connected to four dimension tables: date, team,
+arena, and game type.
+</p>
+<img class="diagram" src="../diagrams/star_schema.svg"
+alt="NBA Data Warehouse Star Schema">
+</section>
+
+<section>
+<h2>5. ETL Pipeline</h2>
+<p>The ETL process follows these stages:</p>
+<table>
+<tr><th>Stage</th><th>Process</th><th>Database Location</th></tr>
+<tr><td>1. Source</td><td>NBA game records in CSV format</td><td>Source file</td></tr>
+<tr><td>2. Extract</td><td>Load raw records</td><td><code>stg.raw_games</code></td></tr>
+<tr><td>3. Transform</td><td>Profile, clean, and convert data types</td><td><code>etl</code> schema</td></tr>
+<tr><td>4. Load</td><td>Load dimension and fact records</td><td><code>dw</code> schema</td></tr>
+<tr><td>5. Validate</td><td>Check row counts and data quality</td><td>Validation queries</td></tr>
+</table>
+
+<img class="diagram" src="../diagrams/etl_pipeline.svg"
+alt="NBA Data Warehouse ETL Pipeline">
+</section>
+
+<section>
+<h2>6. ETL Row Counts</h2>
+<table>
+<tr><th>ETL Stage</th><th>Number of Rows</th></tr>
+<tr><td><code>stg.raw_games</code></td><td>73,470</td></tr>
+<tr><td><code>etl.cleaned_games</code></td><td>73,470</td></tr>
+<tr><td><code>etl.typed_games</code></td><td>73,470</td></tr>
+<tr><td><code>etl.typed_games_final</code></td><td>73,470</td></tr>
+<tr><td><code>dw.fact_game</code></td><td>73,470</td></tr>
+</table>
+<div class="note">
+All checked ETL stages contain the same number of rows.
+</div>
+</section>
+
+<section>
+<h2>7. Data Quality Summary</h2>
+<table>
+<tr><th>Data Quality Check</th><th>Result</th></tr>
+<tr><td>Total fact rows</td><td>73,470</td></tr>
+<tr><td>Unique game IDs</td><td>73,470</td></tr>
+<tr><td>Duplicate game IDs</td><td>0</td></tr>
+<tr><td>Missing checked critical fields</td><td>0</td></tr>
+<tr><td>Invalid negative scores</td><td>0</td></tr>
+<tr><td>Missing attendance values</td><td>71,887</td></tr>
+</table>
+
+<div class="note">
+Attendance is incomplete in the source data. Average attendance is
+calculated only from records with available attendance values.
+Missing attendance is not treated as zero.
+</div>
+</section>
+
+<section>
+<h2>8. Conclusion</h2>
+<p>
+The project transforms historical NBA game records into a structured
+PostgreSQL data warehouse. The Star Schema supports organized data
+queries, while the ETL process prepares records for analysis. Validation
+checks found no duplicate game IDs or negative scores among the checks
+reported in this document.
+</p>
+</section>
+
+<section>
+<h2>9. Project Documentation</h2>
+<table>
+<tr><th>Document</th><th>File</th></tr>
+<tr><td>Lab 1 Documentation</td><td>LAB_1_DOCUMENTATION.md</td></tr>
+<tr><td>Lab 2 Documentation</td><td>LAB_2_DOCUMENTATION.md</td></tr>
+<tr><td>Project README</td><td>README.md</td></tr>
+</table>
+</section>
+
+<footer>
+NBA Data Warehouse Project Report
+</footer>
+</body>
+</html>
